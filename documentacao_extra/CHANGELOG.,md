@@ -1,0 +1,11 @@
+# Changelog
+
+Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
+
+## [1.0.0] - 10/04/2026 02:04
+### Adicionado
+- Assistente CLI para registro de consumo de água, pausas e alimentação.
+- Salvamento automático de histórico no arquivo `progresso.json`.
+- Geração de relatório visual simples.
+- Pipeline de CI com GitHub Actions para Linting e Testes.
+- Documentação completa (README, CHANGELOG e CONTRIBUTING).
