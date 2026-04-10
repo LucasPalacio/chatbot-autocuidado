@@ -1,0 +1,11 @@
+# Arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Cache de testes
+.pytest_cache/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/

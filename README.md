@@ -1,0 +1,2 @@
+# Chatbot de Autocuidado e Hidratação 💧
+Um assistente CLI simples desenvolvido em Python para ajudar no monitoramento de hábitos diários de saúde, como consumo de água e pausas no trabalho. Projeto desenvolvido como requisito acadêmico.
