@@ -49,7 +49,8 @@ chatbot-autocuidado/
 ├── README.md                  # Documentação do projeto
 └── requirements.txt           # Declaração explícita de dependências
 ```
-| Item | Descrição |
+## 🚀 Como Instalar e Executar (Localmente) Para rodar este projeto na sua máquina, siga os passos abaixo. Você precisará ter o Python e o Git instalados.
+| Passo / Tópico | Descrição |
 | :--- | :--- |
 | **1. Clone o repositório** | `git clone https://github.com/LucasPalacio/chatbot-autocuidado.git`<br>`cd chatbot-autocuidado` |
 | **2. Instale as dependências exigidas** | `pip install -r requirements.txt` |
