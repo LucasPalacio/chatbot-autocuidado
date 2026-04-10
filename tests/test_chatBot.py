@@ -1,53 +1,46 @@
 import pytest
-from unittest.mock import patch
-import sys
 import os
+import sys
+from unittest.mock import patch
 
-# Isso garante que a pasta 'src' seja encontrada pelos testes
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src import chatbot
+# Garante que a pasta 'src' seja encontrada sem passar de 79 caracteres
+caminho_base = os.path.dirname(__file__)
+caminho_absoluto = os.path.abspath(os.path.join(caminho_base, '..'))
+sys.path.insert(0, caminho_absoluto)
 
-# 1. TESTE DE CAMINHO FELIZ (Comportamento Correto)
-# Simulamos o usuário digitando 's', 's' e 'n'
-@patch('src.chatbot.salvar_dados')
-@patch('src.chatbot.carregar_dados', return_value=[])
+from src import chatBot  # noqa: E402
+
+
+# 1. TESTE DE CAMINHO FELIZ
+@patch('src.chatBot.salvar_dados')
+@patch('src.chatBot.carregar_dados', return_value=[])
 @patch('builtins.input', side_effect=['s', 's', 'n'])
-def test_fazer_perguntas_caminho_feliz(mock_input, mock_carregar, mock_salvar):
-    chatbot.fazer_perguntas()
-    
-    # Verifica se a função de salvar foi chamada
+def test_fazer_perg_feliz(mock_input, mock_carregar, mock_salvar):
+    chatBot.fazer_perguntas()
     assert mock_salvar.called
-    
-    # Verifica se os dados salvos estão corretos
-    args, kwargs = mock_salvar.call_args
+    args, _ = mock_salvar.call_args
     dados_salvos = args[0]
-    
     assert len(dados_salvos) == 1
-    assert dados_salvos[0]['agua'] == True
-    assert dados_salvos[0]['pausas'] == True
-    assert dados_salvos[0]['alimentacao'] == False
+    assert dados_salvos[0]['agua'] is True
+    assert dados_salvos[0]['pausas'] is True
+    assert dados_salvos[0]['alimentacao'] is False
 
 
 # 2. TESTE DE ENTRADA INVÁLIDA
-# Simulamos o usuário digitando 'x' (errado), e depois acertando com 's', 'n', 's'
-@patch('src.chatbot.salvar_dados')
-@patch('src.chatbot.carregar_dados', return_value=[])
+@patch('src.chatBot.salvar_dados')
+@patch('src.chatBot.carregar_dados', return_value=[])
 @patch('builtins.input', side_effect=['x', 's', 'n', 's'])
-def test_fazer_perguntas_entrada_invalida(mock_input, mock_carregar, mock_salvar):
-    chatbot.fazer_perguntas()
-    
-    # Se ele digitou 'x' primeiro, o bot deve ter repetido a pergunta
-    # Logo, o input deve ter sido chamado 4 vezes no total, e não 3.
+def test_fazer_perg_invalida(mock_input, mock_carregar, mock_salvar):
+    chatBot.fazer_perguntas()
     assert mock_input.call_count == 4
     assert mock_salvar.called
 
 
 # 3. TESTE DE CASO LIMITE
-# O que acontece se o usuário pedir o relatório, mas não houver nenhum dado salvo?
 @patch('builtins.print')
-@patch('src.chatbot.carregar_dados', return_value=[])
-def test_exibir_relatorio_sem_dados(mock_carregar, mock_print):
-    chatbot.exibir_relatorio()
+@patch('src.chatBot.carregar_dados', return_value=[])
+def test_relatorio_sem_dados(mock_carregar, mock_print):
+    chatBot.exibir_relatorio()
+    msg = "\n📭 Ainda não tem registos. Comece hoje mesmo!"
+    mock_print.assert_called_with(msg)
     
-    # Verifica se o bot imprimiu a mensagem correta avisando que não há registros
-    mock_print.assert_called_with("\n📭 Ainda não tem registos. Comece hoje mesmo!")

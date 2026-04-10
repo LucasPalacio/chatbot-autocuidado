@@ -2,20 +2,22 @@ import json
 import os
 from datetime import datetime
 
-# Nome do ficheiro onde os dados serão guardados
 DATA_FILE = "progresso.json"
 
+
 def carregar_dados():
-    """Carrega os dados do ficheiro JSON ou cria uma lista vazia se não existir."""
+    """Carrega dados do JSON ou cria lista vazia se não existir."""
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
+
 def salvar_dados(dados):
     """Guarda a lista de registos no ficheiro JSON."""
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(dados, f, indent=4)
+
 
 def exibir_menu():
     print("\n--- 💧 ASSISTENTE DE AUTOCUIDADO ---")
@@ -24,18 +26,19 @@ def exibir_menu():
     print("3. Sair")
     return input("Escolha uma opção: ")
 
+
 def fazer_perguntas():
     """Realiza o chatbot interactivo com validação de dados."""
     print("\nOlá! Vamos verificar os seus hábitos de hoje.")
-    
+
     perguntas = [
-        ("Bebeu pelo menos 2L de água hoje? (s/n): ", "agua"),
-        ("Fez pausas para alongar durante o trabalho/estudo? (s/n): ", "pausas"),
-        ("Consumiu frutas ou vegetais nas refeições? (s/n): ", "alimentacao")
+        ("Bebeu 2L de água hoje? (s/n): ", "agua"),
+        ("Fez pausas para alongar no trabalho? (s/n): ", "pausas"),
+        ("Consumiu frutas ou vegetais hoje? (s/n): ", "alimentacao")
     ]
-    
+
     respostas_hoje = {"data": datetime.now().strftime("%d/%m/%Y")}
-    
+
     for enunciado, chave in perguntas:
         while True:
             resposta = input(enunciado).lower().strip()
@@ -43,12 +46,13 @@ def fazer_perguntas():
                 respostas_hoje[chave] = (resposta == 's')
                 break
             else:
-                print("⚠️ Resposta inválida! Por favor, digite apenas 's' para sim ou 'n' para não.")
-    
+                print("⚠️ Inválido! Digite 's' (sim) ou 'n' (não).")
+
     dados = carregar_dados()
     dados.append(respostas_hoje)
     salvar_dados(dados)
     print("\n✅ Registado com sucesso! Orgulhe-se de cuidar de si.")
+
 
 def exibir_relatorio():
     dados = carregar_dados()
@@ -57,10 +61,14 @@ def exibir_relatorio():
         return
 
     print("\n--- 📊 O SEU PROGRESSO ---")
-    for registo in dados:
-        status = "🌟" if all([registo['agua'], registo['pausas'], registo['alimentacao']]) else "✅"
-        print(f"Data: {registo['data']} | Status: {status}")
+    for r in dados:
+        if r['agua'] and r['pausas'] and r['alimentacao']:
+            status = "🌟"
+        else:
+            status = "✅"
+        print(f"Data: {r['data']} | Status: {status}")
     print("--------------------------")
+
 
 def main():
     while True:
@@ -75,5 +83,7 @@ def main():
         else:
             print("Opção inválida. Tente novamente.")
 
+
 if __name__ == "__main__":
     main()
+    
