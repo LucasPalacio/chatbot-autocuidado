@@ -59,5 +59,23 @@ chatbot-autocuidado/
 | **Para executar os Testes Automatizados** | `pytest -v` |
 | **Para executar a Análise Estática de Código** | `python -m flake8 src/ tests/` |
 
+## incluir prints, GIF ou exemplos de uso no README
+<img width="1920" height="1032" alt="Captura de tela 2026-04-10 021421" src="https://github.com/user-attachments/assets/659e2f1d-8273-477e-b618-aebdfdd3ee6a" />
+ <img width="1920" height="1032" alt="Captura de tela 2026-04-10 022008" src="https://github.com/user-attachments/assets/2fda302d-9d11-4f2a-950e-1cacfeb9236d" />
+ <img width="1920" height="1032" alt="Captura de tela 2026-04-10 022725" src="https://github.com/user-attachments/assets/89407787-5e52-41a9-8a08-f89aea4e8cf9" />
+ 
+
+
+
+| Tópico | Descrição |
+| :--- | :--- |
+| **1. sem registro** | isso acontonce quando não temos informações de uma lista de saber do autocuidamento quando não foi adcionado <br>.|
+| **2. Registrado** | `conseguimos registrar quando confirmamos a nossa rotina de confirmação de meta de agua ou comidas saudaveis.` |
+| **3. Historico** | `Registra todas os relatorios enviados do usuario para ele ver seu progesso.` |
+| **❌ Invalido** |no exemplo da imagem 3 temos uma invalides em cima em que só acontece quando não respodemos s ou n. |
+| **Sair** | Ao clicar nele saimos do autocuidado |
+
+
+
 
 
