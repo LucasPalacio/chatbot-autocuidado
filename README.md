@@ -49,15 +49,14 @@ chatbot-autocuidado/
 ├── README.md                  # Documentação do projeto
 └── requirements.txt           # Declaração explícita de dependências
 ```
-## 🚀 Como Instalar e Executar (Localmente)
+| Item | Descrição |
+| :--- | :--- |
 | **1. Clone o repositório** | `git clone https://github.com/LucasPalacio/chatbot-autocuidado.git`<br>`cd chatbot-autocuidado` |
 | **2. Instale as dependências exigidas** | `pip install -r requirements.txt` |
 | **3. Inicie o Assistente** | `python src/chatbot.py` |
- ## **  🧪 Qualidade de Código (Testes e Lint) **
-| Este projeto garante sua estabilidade através de testes automatizados (cobrindo o "caminho feliz", "entradas inválidas" e "casos limite" da interface CLI) e verificação de estilo. |
+| **🧪 Qualidade de Código (Testes e Lint)** | Este projeto garante sua estabilidade através de testes automatizados (cobrindo o "caminho feliz", "entradas inválidas" e "casos limite" da interface CLI) e verificação de estilo. |
 | **Para executar os Testes Automatizados** | `pytest -v` |
 | **Para executar a Análise Estática de Código** | `python -m flake8 src/ tests/` |
-
 
 
 
