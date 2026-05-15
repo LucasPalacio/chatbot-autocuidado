@@ -5,10 +5,10 @@ from unittest.mock import patch
 # Força o Python a enxergar a pasta 'src' corretamente na nuvem
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.chatbot import buscar_clima  # noqa: E402
+from src.chatBot import buscar_clima  # noqa: E402
 
 
-@patch('src.chatbot.requests.get')
+@patch('src.chatBot.requests.get')
 def test_comunicacao_api_clima(mock_get):
     """Teste de integracao: valida a comunicacao simulada com a API wttr.in."""
     mock_resposta = mock_get.return_value
@@ -24,7 +24,7 @@ def test_comunicacao_api_clima(mock_get):
     assert resultado["main"]["temp"] == 25
 
 
-@patch('src.chatbot.requests.get')
+@patch('src.chatBot.requests.get')
 def test_comunicacao_api_falha(mock_get):
     """Teste de integracao: valida como o sistema reage se a API cair."""
     mock_resposta = mock_get.return_value
@@ -33,4 +33,3 @@ def test_comunicacao_api_falha(mock_get):
     resultado = buscar_clima("Atlantida")
 
     assert resultado is None
-    
