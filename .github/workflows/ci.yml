@@ -32,4 +32,4 @@ jobs:
 
     - name: 5. Executar os Testes de Integração (Pytest)
       run: |
-        pytest -v
+        python -m pytest -v
