@@ -1,9 +1,44 @@
-import pytest
-import requests
+import os
+import sys
 from unittest.mock import patch
 
-def test_api_clima_conexao():
-    # Testa se a API responde (pode usar mock para não gastar sua cota de API)
-    url = "http://api.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa7972254124657c11294470"
-    response = requests.get(url)
-    assert response.status_code == 200 # Garante que a comunicação funciona
+# Garante que a pasta 'src' seja encontrada sem erros
+caminho_base = os.path.dirname(__file__)
+caminho_absoluto = os.path.abspath(os.path.join(caminho_base, '..'))
+sys.path.insert(0, caminho_absoluto)
+
+from src.chatbot import buscar_clima  # noqa: E402
+
+
+@patch('src.chatbot.requests.get')
+def test_comunicacao_api_clima(mock_get):
+    """Teste de integracao: valida a comunicacao simulada com a API wttr.in."""
+    # Preparamos o nosso "robô" para fingir que a API respondeu perfeitamente
+    mock_resposta = mock_get.return_value
+    mock_resposta.status_code = 200
+    mock_resposta.json.return_value = {
+        'current_condition': [{'temp_C': '25'}]
+    }
+
+    # Rodamos a função passando uma cidade
+    resultado = buscar_clima("Sao Paulo")
+
+    # Verificamos se o nosso código montou a temperatura certinha
+    assert resultado is not None
+    assert "main" in resultado
+    assert resultado["main"]["temp"] == 25
+
+
+@patch('src.chatbot.requests.get')
+def test_comunicacao_api_falha(mock_get):
+    """Teste de integracao: valida como o sistema reage se a API cair."""
+    # Simulamos que o site da API está fora do ar (Erro 404)
+    mock_resposta = mock_get.return_value
+    mock_resposta.status_code = 404
+
+    # Rodamos a função
+    resultado = buscar_clima("Atlantida")
+
+    # Se a API cair, o nosso bot não deve quebrar, deve apenas retornar None
+    assert resultado is None
+    
