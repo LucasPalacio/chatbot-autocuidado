@@ -1,34 +1,35 @@
 name: Validacao Continua (CI)
 
-# Define quando a automação vai rodar (ao fazer push ou pull request)
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main", "entrega-intermediaria" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
 
 jobs:
   testes-e-lint:
-    runs-on: ubuntu-latest # O servidor virtual que o GitHub vai usar
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Baixar o código do repositório
+    - name: 1. Baixar o código do repositório
       uses: actions/checkout@v4
 
-    - name: Configurar o Python
+    - name: 2. Configurar o Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11" # Pode ajustar se estiver usando outra versão
+        python-version: '3.11'
 
-    - name: Instalar dependências
+    - name: 3. Instalar as dependências do projeto
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install pytest flake8 requests streamlit
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Análise estática do código (Linting com Flake8)
+    - name: 4. Analisar o estilo do código (Linting / Flake8)
+      # O exit-zero faz com que o robô apenas avise sobre erros de estilo, sem quebrar sua nota
       run: |
-        # Configurado para não travar o build por bobeira, mas mostrar os erros
         flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Rodar Testes Automatizados (Pytest)
-      run: pytest
+    - name: 5. Executar os Testes de Integração (Pytest)
+      run: |
+        python -m pytest -v
