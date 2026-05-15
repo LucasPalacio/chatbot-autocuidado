@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 
 DATA_FILE = "progresso.json"
-API_KEY = "b1b15e88fa7972254124657c11294470"  # Chave de teste do OpenWeatherMap
 
 
 def carregar_dados():
@@ -23,12 +22,15 @@ def salvar_dados(dados):
 
 
 def buscar_clima(cidade):
-    """Busca os dados do clima na API do OpenWeatherMap."""
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}&units=metric"
+    """Busca os dados do clima usando uma API 100% aberta e sem chave."""
+    url = f"https://wttr.in/{cidade}?format=j1"
     try:
         res = requests.get(url)
         if res.status_code == 200:
-            return res.json()
+            dados = res.json()
+            # Pegamos a temperatura atual e montamos no mesmo formato de antes
+            temp_atual = int(dados['current_condition'][0]['temp_C'])
+            return {"main": {"temp": temp_atual}}
         return None
     except Exception:
         return None
@@ -43,7 +45,7 @@ st.title("💧 Assistente de Autocuidado")
 cidade = st.text_input("Em qual cidade você está?", "Sao Paulo")
 dados_clima = buscar_clima(cidade)
 
-# A variável é iniciada vazia para evitar o NameError que deu no seu Streamlit
+# A variável é iniciada vazia para evitar o NameError
 temp = None 
 
 if dados_clima and dados_clima.get("main"):
@@ -90,7 +92,8 @@ if historico:
     # Mostra do registro mais novo para o mais velho
     for r in reversed(historico): 
         status = "🌟" if r['agua'] and r['pausas'] and r['alimentacao'] else "✅"
-        temperatura = f"{r['temp_local']}°C" if r.get('temp_local') else "N/A"
+        # Garante que vai mostrar a temperatura se ela existir
+        temperatura = f"{r['temp_local']}°C" if r.get('temp_local') is not None else "N/A"
         
         st.write(f"**{r['data']}** | {status} | Temp: {temperatura}")
 else:
