@@ -6,6 +6,7 @@ entrega intermediaria
 [![Validação Contínua (CI)](https://github.com/LucasPalacio/chatbot-autocuidado/actions/workflows/ci.yml/badge.svg)](https://github.com/LucasPalacio/chatbot-autocuidado/actions/workflows/ci.yml)
 
 **Acesse a Aplicação Online:** [Clique aqui para abrir o Assistente](https://chatbot-autocuidado-ncdthw6sjetzqucn8jmae3.streamlit.app/)
+**git hub pages:** https://lucaspalacio.github.io/chatbot-autocuidado/
 
 ---
 
